@@ -1,30 +1,79 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+package com.example.happybirthday
 
-    <!-- Tiêu đề Happy Birthday -->
-    <TextView
-        android:id="@+id/textTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Happy Birthday, P!"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_gravity="center"/>
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.happybirthday.ui.theme.HappyBirthdayTheme
 
-    <!-- Lời chúc phía dưới -->
-    <TextView
-        android:id="@+id/textFooter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="From P."
-        android:textSize="18sp"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:layout_gravity="center"/>
-</LinearLayout>
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            HappyBirthdayTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        // Dòng chúc mừng sinh nhật ở góc trên bên trái
+                        Greeting(
+                            name = "Phong",
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(16.dp)
+                        )
+                        // Dòng "From Phong." ở góc dưới bên phải
+                        FromText(
+                            name = "Phong",
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(16.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Happy Birthday, $name!",
+        modifier = modifier
+    )
+}
+
+@Composable
+fun FromText(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "From $name.",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    HappyBirthdayTheme {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // Dòng chúc mừng sinh nhật ở góc trên bên trái
+            Greeting("Phong", modifier = Modifier.align(Alignment.TopStart).padding(16.dp))
+            // Dòng "From Phong." ở góc dưới bên phải
+            FromText("Phong", modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp))
+        }
+    }
+}
